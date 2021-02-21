@@ -37,11 +37,11 @@ export default {
   methods: {
     ...mapActions(['getAdminData']),
     async handleCommand (command) {
-      if (command == 'home') {
+      if (command === 'home') {
         this.$router.push('/manage')
-      } else if (command == 'signout') {
+      } else if (command === 'signout') {
         const res = await signout()
-        if (res.status == 1) {
+        if (res.status === 1) {
           this.$message({
             type: 'success',
             message: '退出成功'
@@ -60,7 +60,7 @@ export default {
 </script>
 
 <style lang="less">
-  @import '../style/mixin';
+  //@import '../style/mixin';
 
   .header_container {
     background-color: #EFF2F7;
@@ -69,12 +69,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding-left: 20px;
-  }
-
-  .avator {
-    .wh(36px, 36px);
-    border-radius: 50%;
-    margin-right: 37px;
   }
 
   .el-dropdown-menu__item {
