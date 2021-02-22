@@ -56,12 +56,11 @@ export default {
         if (valid) {
           const res = await login({user_name: this.loginForm.username, password: this.loginForm.password})
           if (res.code === 0) {
-            debugger
             this.$message({
               type: 'success',
               message: '登录成功'
             })
-            // this.$router.push('manage')
+            await this.$router.push('manage')
           } else {
             this.$message({
               type: 'error',

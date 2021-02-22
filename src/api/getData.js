@@ -9,3 +9,8 @@ export const login = data => fetch('/user/login', data, 'POST')
  * 获取用户信息
  */
 export const getAdminInfo = () => fetch('/admin/info')
+
+/**
+ * 获取用户列表
+ */
+export const getUserList = data => fetch('/user/userPagination', data)

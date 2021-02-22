@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '../page/login'
 import Manage from '../page/Manage'
 import Home from '../page/Home'
+import UserList from '../page/UserList'
 
 Vue.use(Router)
 
@@ -21,6 +22,10 @@ export default new Router({
         path: '',
         component: Home,
         meta: []
+      }, {
+        path: '/userList',
+        component: UserList,
+        meta: ['数据管理', '用户列表']
       }
       // , {
       //   path: '/addShop',
