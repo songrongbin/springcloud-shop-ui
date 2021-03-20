@@ -60,7 +60,7 @@ export default {
               type: 'success',
               message: '登录成功'
             })
-            await this.$router.push('manage')
+            this.$router.push('manage')
           } else {
             this.$message({
               type: 'error',

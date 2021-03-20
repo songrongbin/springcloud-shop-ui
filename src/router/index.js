@@ -4,6 +4,14 @@ import Login from '../page/login'
 import Manage from '../page/Manage'
 import Home from '../page/Home'
 import UserList from '../page/UserList'
+import RoleList from '../page/RoleList'
+import DeptList from '../page/DeptList'
+import PermissionList from '../page/PermissionList'
+import UserGroupList from '../page/UserGroupList'
+import SupplierList from '../page/SupplierList'
+import OrderList from '../page/OrderList'
+import GoodsList from '../page/GoodsList'
+import BrandList from '../page/BrandList'
 
 Vue.use(Router)
 
@@ -25,7 +33,39 @@ export default new Router({
       }, {
         path: '/userList',
         component: UserList,
-        meta: ['数据管理', '用户列表']
+        meta: ['用户管理', '用户列表']
+      }, {
+        path: '/roleList',
+        component: RoleList,
+        meta: ['用户管理', '角色列表']
+      }, {
+        path: '/deptList',
+        component: DeptList,
+        meta: ['用户管理', '部门列表']
+      }, {
+        path: '/permissionList',
+        component: PermissionList,
+        meta: ['用户管理', '权限列表']
+      }, {
+        path: '/userGroupList',
+        component: UserGroupList,
+        meta: ['用户管理', '用户组列表']
+      }, {
+        path: '/supplierList',
+        component: SupplierList,
+        meta: ['供应商管理', '供应商列表']
+      }, {
+        path: '/orderList',
+        component: OrderList,
+        meta: ['订单管理', '订单列表']
+      }, {
+        path: '/goodsList',
+        component: GoodsList,
+        meta: ['商品管理', '商品列表']
+      }, {
+        path: '/brandList',
+        component: BrandList,
+        meta: ['供应商管理', '品牌列表']
       }
       // , {
       //   path: '/addShop',
