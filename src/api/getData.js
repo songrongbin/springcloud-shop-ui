@@ -6,9 +6,9 @@ import fetch from '@/config/fetch'
 export const login = data => fetch('/user/login', data, 'POST')
 
 /**
- * 获取用户信息
+ * 获取用户登录信息
  */
-export const getAdminInfo = () => fetch('/admin/info')
+export const getUserLoginInfo = () => fetch('/user/loginInfo')
 
 /**
  * 获取用户列表

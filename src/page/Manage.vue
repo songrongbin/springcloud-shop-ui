@@ -11,7 +11,6 @@
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-plus"></i>供应商管理</template>
             <el-menu-item index="supplierList">供应商列表</el-menu-item>
-<!--            <el-menu-item index="addGoods"></el-menu-item>-->
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-plus"></i>商品管理</template>
@@ -36,7 +35,6 @@
           <el-submenu index="4">
             <template slot="title"><i class="el-icon-star-on"></i>图表</template>
             <el-menu-item index="visitor">用户分布</el-menu-item>
-            <!-- <el-menu-item index="newMember">用户数据</el-menu-item> -->
           </el-submenu>
           <el-submenu index="5">
             <template slot="title"><i class="el-icon-edit"></i>编辑</template>

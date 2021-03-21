@@ -3,14 +3,14 @@
     <transition name="form-fade" mode="in-out">
       <section class="form_container" v-show="showLogin">
         <div class="manage_tip">
-          <p>elm后台管理系统</p>
+          <p>Shop后台管理系统</p>
         </div>
         <el-form :model="loginForm" :rules="rules" ref="loginForm">
           <el-form-item prop="username">
-            <el-input v-model="loginForm.username" placeholder="用户名"><span>dsfsf</span></el-input>
+            <el-input v-model="loginForm.username" autocomplete="off" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input type="password" placeholder="密码" v-model="loginForm.password"></el-input>
+            <el-input type="password" placeholder="密码" auto-complete="new-password" v-model="loginForm.password"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
@@ -23,8 +23,6 @@
 
 <script>
 import {login} from '@/api/getData'
-// import {mapActions, mapState} from 'vuex'
-
 export default {
   data () {
     return {
@@ -46,15 +44,11 @@ export default {
   mounted () {
     this.showLogin = true
   },
-  computed: {
-    // ...mapState(['adminInfo']),
-  },
   methods: {
-    // ...mapActions(['getAdminData']),
     async submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          const res = await login({user_name: this.loginForm.username, password: this.loginForm.password})
+          const res = await login({userName: this.loginForm.username, password: this.loginForm.password})
           if (res.code === 0) {
             this.$message({
               type: 'success',
@@ -77,17 +71,6 @@ export default {
         }
       })
     }
-  },
-  watch: {
-    adminInfo: function (newValue) {
-      if (newValue.id) {
-        this.$message({
-          type: 'success',
-          message: '检测到您之前登录过，将自动登录'
-        })
-        this.$router.push('manage')
-      }
-    }
   }
 }
 </script>
@@ -97,13 +80,11 @@ export default {
     background-color: #324057;
   }
   .manage_tip{
-    position: absolute;
     width: 100%;
     top: -100px;
     left: 0;
     p{
       font-size: 34px;
-      color: #fff;
     }
   }
   .form_container{
