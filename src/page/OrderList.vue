@@ -8,21 +8,42 @@
         style="width: 100%">
         <el-table-column
           type="index"
-          width="100">
+          width="50">
         </el-table-column>
         <el-table-column
           property="orderCode"
           label="订单编号"
-          width="220">
+          width="100">
         </el-table-column>
         <el-table-column
-          property="userId"
+          property="userName"
           label="用户"
-          width="220">
+          width="100">
+        </el-table-column>
+        <el-table-column
+          property="statusName"
+          label="订单状态">
         </el-table-column>
         <el-table-column
           property="orderAmount"
           label="订单金额">
+        </el-table-column>
+        <el-table-column
+          property="couponAmount"
+          label="优惠券金额">
+        </el-table-column>
+        <el-table-column
+          property="discountAmount"
+          label="折扣金额">
+        </el-table-column>
+        <el-table-column
+          property="shoppingAmount"
+          label="运费金额">
+        </el-table-column>
+        <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button type="primary" @click="viewOrderDetail(scope.row)">查看详情</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="Pagination" style="text-align: left;margin-top: 10px;">
@@ -36,26 +57,64 @@
         </el-pagination>
       </div>
     </div>
+
+    <!-- 订单详情 -->
+    <el-dialog :visible.sync="detailDialogVisible" title="订单详情" width="700">
+      <el-form :data="orderDetail" label-position="left">
+        <el-form-item label="订单编码">
+          <span>{{ orderDetail.orderCode }}</span>
+        </el-form-item>
+        <el-form-item label="用户名称">
+          <span>{{ orderDetail.userName }}</span>
+        </el-form-item>
+        <el-form-item label="供应商名称">
+          <span>{{ orderDetail.supplierName }}</span>
+        </el-form-item>
+<!--        <el-form-item v-for="orderGoods in orderDetail.orderGoodsList">-->
+<!--          <el-form :model="orderGoods">-->
+<!--            <el-form-item label="商品编码">-->
+<!--              <span>{{ orderGoods.goodsCode }}</span>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="商品名称">-->
+<!--              <span>{{ orderGoods.goodsName }}</span>-->
+<!--            </el-form-item>-->
+<!--          </el-form>-->
+<!--        </el-form-item>-->
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import headTop from '../components/headTop'
-import {getOrderList} from '@/api/getData'
+import {getOrderList, getOrderDetail} from '@/api/getData'
 
 export default {
   data () {
     return {
       tableData: [{
+        id: 0,
         orderCode: 'O100000',
         userId: 1,
-        orderAmount: 100
+        userName: 'andy',
+        orderAmount: 100,
+        couponAmount: 1,
+        discountAmount: 1,
+        shoppingAmount: 1,
+        status: 1,
+        statusName: '未支付'
       }],
+      orderDetail: {
+        orderCode: '',
+        userName: '',
+        orderGoodsList: []
+      },
       currentRow: null,
       offset: 0,
       limit: 10,
       count: 0,
-      currentPage: 1
+      currentPage: 1,
+      detailDialogVisible: false
     }
   },
   components: {
@@ -80,6 +139,13 @@ export default {
       this.offset = (val - 1) * this.limit
       this.getOrders()
     },
+    async viewOrderDetail (row) {
+      const detailResult = await getOrderDetail({id: row.id})
+      if (detailResult.code === 0) {
+        this.detailDialogVisible = true
+        this.orderDetail = detailResult.data
+      }
+    },
     async getOrders () {
       const listResult = await getOrderList({pageNum: this.offset, pageSize: this.limit})
       if (listResult.code === 0) {
@@ -87,14 +153,7 @@ export default {
         this.offset = listResult.data.pageNum
         this.limit = listResult.data.pageSize
         this.currentPage = listResult.data.pages
-        this.tableData = []
-        listResult.data.list.forEach(item => {
-          const tableData = {}
-          tableData.orderCode = item.orderCode
-          tableData.userId = item.userId
-          tableData.orderAmount = item.orderAmount
-          this.tableData.push(tableData)
-        })
+        this.tableData = listResult.data.list
       }
     }
   }

@@ -44,7 +44,10 @@ export const getSupplierList = data => fetch('/supplier/supplier/pagination', da
  * 获取订单列表
  */
 export const getOrderList = data => fetch('/order/order/pagination', data)
-
+/**
+ * 获取订单详情
+ */
+export const getOrderDetail = data => fetch('/order/order/detail', data)
 /**
  * 获取商品列表
  */
