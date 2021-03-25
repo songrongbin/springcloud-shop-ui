@@ -12,7 +12,7 @@ let baseImgPath
 
 if (process.env.NODE_ENV === 'development') {
   baseUrl = 'http://localhost:8000'
-  baseImgPath = '/img/'
+  baseImgPath = '/images/'
 } else {
   baseUrl = '//elm.cangdu.org'
   baseImgPath = '//elm.cangdu.org/img/'

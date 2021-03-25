@@ -13,12 +13,17 @@
         <el-table-column
           property="userCode"
           label="用户编号"
-          width="220">
+          width="100">
         </el-table-column>
         <el-table-column
           property="userName"
           label="用户姓名"
-          width="220">
+          width="100">
+        </el-table-column>
+        <el-table-column
+          property="deptName"
+          label="部门名称"
+          width="100">
         </el-table-column>
         <el-table-column
           property="phone"
@@ -49,14 +54,7 @@ export default {
       tableData: [{
         userCode: 'admin',
         userName: 'Andy',
-        phone: '18899998888'
-      }, {
-        userCode: 'admin',
-        userName: 'Andy',
-        phone: '18899998888'
-      }, {
-        userCode: 'admin',
-        userName: 'Andy',
+        deptName: '销售部',
         phone: '18899998888'
       }],
       currentRow: null,
@@ -97,10 +95,7 @@ export default {
         this.currentPage = usersResult.data.pages
         this.tableData = []
         usersResult.data.list.forEach(item => {
-          const tableData = {}
-          tableData.userName = item.userName
-          tableData.userCode = item.userCode
-          tableData.phone = item.phone
+          const tableData = item
           this.tableData.push(tableData)
         })
       }

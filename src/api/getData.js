@@ -16,9 +16,39 @@ export const getUserLoginInfo = () => fetch('/user/loginInfo')
 export const getUserList = data => fetch('/user/userPagination', data)
 
 /**
+ * 获取用户select
+ */
+export const getCreateBySelectList = data => fetch('/user/select/userList', data)
+
+/**
  * 获取部门列表
  */
 export const getDeptList = data => fetch('/user/dept/deptPagination', data)
+
+/**
+ * 获取部门详情
+ */
+export const getDeptDetail = data => fetch('/user/dept/detail', data)
+
+/**
+ * 获取部门Select
+ */
+export const getDeptSelectList = data => fetch('/user/select/deptList', data)
+
+/**
+ * 添加部门
+ */
+export const doAddDept = data => fetch('/user/dept/deptAdd', data, 'POST')
+
+/**
+ * 编辑部门
+ */
+export const doEditDept = data => fetch('/user/dept/deptEdit', data, 'POST')
+
+/**
+ * 删除部门
+ */
+export const doDeleteDept = data => fetch('/user/dept/deptDel', data)
 
 /**
  * 获取角色列表
