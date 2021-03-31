@@ -16,17 +16,17 @@
         style="width: 100%">
         <el-table-column
           type="index"
-          width="100">
+          width="50">
         </el-table-column>
         <el-table-column
           property="deptCode"
           label="部门编号"
-          width="100">
+          width="150">
         </el-table-column>
         <el-table-column
           property="deptName"
           label="部门名称"
-          width="100">
+          width="150">
         </el-table-column>
         <el-table-column
           property="sort"

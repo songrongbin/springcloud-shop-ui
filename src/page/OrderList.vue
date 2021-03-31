@@ -1,6 +1,10 @@
 <template>
   <div class="fillcontain">
     <head-top></head-top>
+    <div class="filter-container">
+      <el-input v-model="query.orderCode" clearable class="filter-item" style="width: 200px;" placeholder="请输入订单编码"/>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="searchRecord">查找</el-button>
+    </div>
     <div class="table_container">
       <el-table
         :data="tableData"
@@ -109,6 +113,9 @@ export default {
         userName: '',
         orderGoodsList: []
       },
+      query: {
+        orderCode: ''
+      },
       currentRow: null,
       offset: 0,
       limit: 10,
@@ -131,6 +138,9 @@ export default {
         console.log('获取数据失败', err)
       }
     },
+    async searchRecord () {
+      await this.getOrders()
+    },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条`)
     },
@@ -147,7 +157,7 @@ export default {
       }
     },
     async getOrders () {
-      const listResult = await getOrderList({pageNum: this.offset, pageSize: this.limit})
+      const listResult = await getOrderList({pageNum: this.offset, pageSize: this.limit, orderCode: this.query.orderCode})
       if (listResult.code === 0) {
         this.count = listResult.data.total
         this.offset = listResult.data.pageNum
