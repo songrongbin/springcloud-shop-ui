@@ -29,7 +29,8 @@
         </el-table-column>
         <el-table-column
           property="permissionType"
-          label="权限类型">
+          label="权限类型"
+          :formatter="permissionTypeFormat">
         </el-table-column>
         <el-table-column align="center" label="操作" width="400" class-name="small-padding fixed-width">
           <template slot-scope="scope">
@@ -60,6 +61,17 @@
         <el-form-item label="权限名称：" label-width="100px">
           <span>{{ detail.permissionName }}</span>
         </el-form-item>
+        <el-form-item label="权限类型：" label-width="100px">
+          <template slot-scope="scope">
+            {{ scope.row.permissionType === 1 ? '模块' : scope.row.permissionType === 2 ? '菜单' : scope.row.permissionType === 3 ? '权限' : ''}}
+          </template>
+        </el-form-item>
+        <el-form-item label="URL：" label-width="100px">
+          <span>{{ detail.url }}</span>
+        </el-form-item>
+        <el-form-item label="URL：" label-width="100px">
+          <span>{{ detail.urlClass }}</span>
+        </el-form-item>
         <el-form-item label="序号：" label-width="100px">
           <span>{{ detail.sort }}</span>
         </el-form-item>
@@ -81,6 +93,32 @@
         <el-form-item label="权限名称" label-width="100px">
           <el-input v-model="editInfo.permissionName"></el-input>
         </el-form-item>
+        <el-form-item label="权限名称" label-width="100px">
+          <el-select v-model="editInfo.permissionType" placeholder="请选择">
+            <el-option
+              v-for="item in permissionTypeSelect"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="父权限" label-width="100px">
+          <el-select v-model="editInfo.pid" placeholder="请选择">
+            <el-option
+              v-for="item in pidSelect"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="URL" label-width="100px">
+          <el-input v-model="editInfo.url"></el-input>
+        </el-form-item>
+        <el-form-item label="URL" label-width="100px">
+          <el-input v-model="editInfo.urlClass"></el-input>
+        </el-form-item>
         <el-form-item label="序号" label-width="100px">
           <el-input v-model="editInfo.sort"></el-input>
         </el-form-item>
@@ -95,7 +133,7 @@
 
 <script>
 import headTop from '../components/headTop'
-import {getPermissionList, getPermissionDetail, deletePermission, addPermission, editPermission} from '@/api/getData'
+import {getPermissionList, getPermissionDetail, deletePermission, addPermission, editPermission, getPermissionPidSelectList} from '@/api/getData'
 
 export default {
   data () {
@@ -109,6 +147,9 @@ export default {
         id: 0,
         permissionCode: '',
         permissionName: '',
+        permissionType: '1',
+        url: '',
+        urlClass: '',
         sort: 0,
         createByName: ''
       },
@@ -116,14 +157,30 @@ export default {
         id: 0,
         permissionCode: '',
         permissionName: '',
+        permissionType: '1',
+        url: '',
+        urlClass: '',
         sort: 0
       },
       query: {
         permissionCode: '',
-        permissionName: ''
+        permissionName: '',
+        permissionType: '1'
       },
-      currentRow: null,
-      offset: 0,
+      permissionTypeSelect: [{
+        code: 1,
+        name: '模块'
+      }, {
+        code: 2,
+        name: '菜单'
+      }, {
+        code: 3,
+        name: '权限'
+      }],
+      pidSelect: [{
+        code: 7,
+        name: '用户管理'
+      }],
       limit: 10,
       count: 0,
       currentPage: 1,
@@ -181,6 +238,7 @@ export default {
         this.editInfo = detailResult.data
         this.editInfo.id = row.id
         this.editButtonName = '编辑'
+        await this.getPidSelect()
         await this.getPermissions()
       }
     },
@@ -190,7 +248,14 @@ export default {
     viewAddRecord () {
       this.editDialogVisible = true
       this.editInfo.id = 0
+      this.editInfo.permissionCode = ''
+      this.editInfo.permissionName = ''
+      this.editInfo.permissionType = 0
+      this.editInfo.url = ''
+      this.editInfo.sort = ''
+      this.editInfo.pid = ''
       this.editButtonName = '添加'
+      this.getPidSelect()
     },
     async doEdit () {
       if (this.editInfo.id == null || this.editInfo.id === 0) {
@@ -226,17 +291,31 @@ export default {
     },
     handleCurrentChange (val) {
       this.currentPage = val
-      this.offset = (val - 1) * this.limit
       this.getPermissions()
     },
     async getPermissions () {
-      const listResult = await getPermissionList({pageNum: this.offset, pageSize: this.limit, permissionCode: this.query.permissionCode, permissionName: this.query.permissionName})
+      const listResult = await getPermissionList({pageNum: this.currentPage, pageSize: this.limit, permissionCode: this.query.permissionCode, permissionName: this.query.permissionName})
       if (listResult.code === 0) {
         this.count = listResult.data.total
-        this.offset = listResult.data.pageNum
         this.limit = listResult.data.pageSize
-        // this.currentPage = listResult.data.pages
+        this.currentPage = listResult.data.pageNum
         this.tableData = listResult.data.list
+      }
+    },
+    permissionTypeFormat (row, column) {
+      if (row.permissionType === 1) {
+        return '模块'
+      } else if (row.permissionType === 2) {
+        return '菜单'
+      } else if (row.permissionType === 3) {
+        return '权限'
+      }
+      return ''
+    },
+    async getPidSelect () {
+      const result = await getPermissionPidSelectList({})
+      if (result.code === 0) {
+        this.pidSelect = result.data
       }
     }
   }

@@ -23,6 +23,7 @@
 
 <script>
 import {login} from '@/api/getData'
+
 export default {
   data () {
     return {
@@ -50,6 +51,8 @@ export default {
         if (valid) {
           const res = await login({userName: this.loginForm.username, password: this.loginForm.password})
           if (res.code === 0) {
+            this.$localstorage.putLocalStorage('token', res.data.token)
+            this.$localstorage.putLocalStorage('userId', res.data.userId)
             this.$message({
               type: 'success',
               message: '登录成功'

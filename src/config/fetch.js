@@ -1,4 +1,5 @@
 import { baseUrl } from './env'
+import storage from '../store/storage.js'
 
 export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase()
@@ -17,12 +18,16 @@ export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
   }
 
   if (window.fetch && method === 'fetch') {
+    let token = storage.getLocalStorage('token')
+    let userId = storage.getLocalStorage('userId')
     let requestConfig = {
       // credentials: 'include',
       method: type,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'token': token,
+        'userId': userId
       },
       mode: 'cors',
       cache: 'no-cache'

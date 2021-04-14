@@ -41,6 +41,11 @@ export const deleteUser = data => fetch('/user/user/delete', data)
 export const getCreateBySelectList = data => fetch('/user/select/userList', data)
 
 /**
+ * 获取用户菜单
+ */
+export const getUserMenuList = data => fetch('/user/user/menu', data)
+
+/**
  * 获取部门列表
  */
 export const getDeptList = data => fetch('/user/dept/deptPagination', data)
@@ -119,6 +124,11 @@ export const editPermission = data => fetch('/user/permission/edit', data, 'POST
  * 删除权限
  */
 export const deletePermission = data => fetch('/user/permission/delete', data)
+
+/**
+ * 获取父权限列表
+ */
+export const getPermissionPidSelectList = data => fetch('/user/permission/pidList', data)
 
 /**
  * 获取用户组列表
